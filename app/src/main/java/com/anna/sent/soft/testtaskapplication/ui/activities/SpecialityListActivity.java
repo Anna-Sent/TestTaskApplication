@@ -1,0 +1,101 @@
+package com.anna.sent.soft.testtaskapplication.ui.activities;
+
+import android.app.AlertDialog;
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+
+import com.anna.sent.soft.testtaskapplication.R;
+import com.anna.sent.soft.testtaskapplication.app.TestTaskApp;
+import com.anna.sent.soft.testtaskapplication.di.AppComponent;
+import com.anna.sent.soft.testtaskapplication.mvp.models.Employee;
+import com.anna.sent.soft.testtaskapplication.mvp.models.Speciality;
+import com.anna.sent.soft.testtaskapplication.mvp.presenters.SpecialityListPresenter;
+import com.anna.sent.soft.testtaskapplication.mvp.views.SpecialityListView;
+import com.anna.sent.soft.testtaskapplication.ui.adapters.SpecialityRecyclerViewAdapter;
+import com.arellomobile.mvp.MvpAppCompatActivity;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class SpecialityListActivity extends MvpAppCompatActivity implements SpecialityListView {
+    @InjectPresenter SpecialityListPresenter mPresenter;
+
+    @BindView(R.id.fab) FloatingActionButton fab;
+
+    @BindView(R.id.toolbar) Toolbar toolbar;
+
+    @BindView(R.id.speciality_list) RecyclerView recyclerView;
+
+    private SpecialityRecyclerViewAdapter mAdapter;
+
+    private AlertDialog mErrorDialog;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_speciality_list);
+
+        AppComponent component = TestTaskApp.getAppComponent();
+        component.inject(mPresenter);
+
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        toolbar.setTitle(getTitle());
+
+        mErrorDialog = new AlertDialog.Builder(this)
+                .setTitle(R.string.app_name)
+                .setOnCancelListener(dialog -> mPresenter.closeError())
+                .create();
+    }
+
+    @OnClick(R.id.fab)
+    public void actionButtonClicked(FloatingActionButton button) {
+        Snackbar.make(button, "Replace with your own action", Snackbar.LENGTH_LONG)
+                .setAction("Action", null).show();
+    }
+
+    @Override
+    public void showError(String message) {
+        mErrorDialog.setMessage(message);
+        mErrorDialog.show();
+    }
+
+    @Override
+    public void hideError() {
+        mErrorDialog.cancel();
+    }
+
+    @Override
+    public void onStartLoading() {
+    }
+
+    @Override
+    public void onFinishLoading() {
+    }
+
+    @Override
+    public void setSpecialities(List<Speciality> specialities, Map<Speciality, ArrayList<Employee>> employees) {
+        mAdapter = new SpecialityRecyclerViewAdapter(this, specialities, employees);
+        recyclerView.setAdapter(mAdapter);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (mErrorDialog != null) {
+            mErrorDialog.setOnCancelListener(null);
+            mErrorDialog.dismiss();
+        }
+
+        super.onDestroy();
+    }
+}
