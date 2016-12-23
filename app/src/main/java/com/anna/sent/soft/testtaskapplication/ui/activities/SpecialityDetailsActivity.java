@@ -25,9 +25,9 @@ import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDeta
 import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment.EXTRA_SPECIALITY;
 
 public class SpecialityDetailsActivity extends AppCompatActivity {
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.fab) FloatingActionButton mFab;
 
-    @BindView(R.id.details_toolbar) Toolbar toolbar;
+    @BindView(R.id.details_toolbar) Toolbar mToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class SpecialityDetailsActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

@@ -29,11 +29,11 @@ import butterknife.OnClick;
 public class SpecialityListActivity extends MvpAppCompatActivity implements SpecialityListView {
     @InjectPresenter SpecialityListPresenter mPresenter;
 
-    @BindView(R.id.fab) FloatingActionButton fab;
+    @BindView(R.id.fab) FloatingActionButton mFab;
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
 
-    @BindView(R.id.speciality_list) RecyclerView recyclerView;
+    @BindView(R.id.speciality_list) RecyclerView mRecyclerView;
 
     private SpecialityRecyclerViewAdapter mAdapter;
 
@@ -49,8 +49,8 @@ public class SpecialityListActivity extends MvpAppCompatActivity implements Spec
 
         ButterKnife.bind(this);
 
-        setSupportActionBar(toolbar);
-        toolbar.setTitle(getTitle());
+        setSupportActionBar(mToolbar);
+        mToolbar.setTitle(getTitle());
 
         mErrorDialog = new AlertDialog.Builder(this)
                 .setTitle(R.string.app_name)
@@ -86,7 +86,7 @@ public class SpecialityListActivity extends MvpAppCompatActivity implements Spec
     @Override
     public void setSpecialities(List<Speciality> specialities, Map<Speciality, ArrayList<Employee>> employees) {
         mAdapter = new SpecialityRecyclerViewAdapter(this, specialities, employees);
-        recyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
     @Override

@@ -23,19 +23,19 @@ import butterknife.Unbinder;
 public class SpecialityDetailsFragment extends MvpAppCompatFragment {
     @Nullable
     @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout toolbarLayout;
+    CollapsingToolbarLayout mToolbarLayout;
 
-    @BindView(R.id.employee_list) RecyclerView recyclerView;
+    @BindView(R.id.employee_list) RecyclerView mRecyclerView;
 
     private EmployeeRecyclerViewAdapter mAdapter;
 
-    private Unbinder unbinder;
+    private Unbinder mUnbinder;
 
     public static final String EXTRA_SPECIALITY = "speciality";
     public static final String EXTRA_EMPLOYEES = "employees";
 
-    private Speciality speciality;
-    private ArrayList<Employee> employees;
+    private Speciality mSpeciality;
+    private ArrayList<Employee> mEmployees;
 
     public SpecialityDetailsFragment() {
     }
@@ -44,11 +44,11 @@ public class SpecialityDetailsFragment extends MvpAppCompatFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        speciality = getArguments().getParcelable(EXTRA_SPECIALITY);
-        employees = getArguments().getParcelableArrayList(EXTRA_EMPLOYEES);
+        mSpeciality = getArguments().getParcelable(EXTRA_SPECIALITY);
+        mEmployees = getArguments().getParcelableArrayList(EXTRA_EMPLOYEES);
 
-        if (toolbarLayout != null) {
-            toolbarLayout.setTitle(speciality == null ? "null" : speciality.getName());
+        if (mToolbarLayout != null) {
+            mToolbarLayout.setTitle(mSpeciality == null ? "null" : mSpeciality.getName());
         }
     }
 
@@ -56,15 +56,15 @@ public class SpecialityDetailsFragment extends MvpAppCompatFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.speciality_details, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        mAdapter = new EmployeeRecyclerViewAdapter(employees);
-        recyclerView.setAdapter(mAdapter);
+        mUnbinder = ButterKnife.bind(this, view);
+        mAdapter = new EmployeeRecyclerViewAdapter(mEmployees);
+        mRecyclerView.setAdapter(mAdapter);
         return view;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
+        mUnbinder.unbind();
     }
 }
