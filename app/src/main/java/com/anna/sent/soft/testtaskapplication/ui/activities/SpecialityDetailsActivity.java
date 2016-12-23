@@ -25,18 +25,12 @@ import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDeta
 import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment.EXTRA_SPECIALITY;
 
 public class SpecialityDetailsActivity extends AppCompatActivity {
-    @BindView(R.id.fab) FloatingActionButton mFab;
-
-    @BindView(R.id.details_toolbar) Toolbar mToolbar;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speciality_details);
 
         ButterKnife.bind(this);
-
-        setSupportActionBar(mToolbar);
 
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
@@ -56,12 +50,6 @@ public class SpecialityDetailsActivity extends AppCompatActivity {
                     .add(R.id.speciality_details_container, fragment)
                     .commit();
         }
-    }
-
-    @OnClick(R.id.fab)
-    void onClick(FloatingActionButton button) {
-        Snackbar.make(button, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     @Override

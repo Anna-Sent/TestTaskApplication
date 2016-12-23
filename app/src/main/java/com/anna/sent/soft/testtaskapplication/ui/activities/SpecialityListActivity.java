@@ -29,8 +29,6 @@ import butterknife.OnClick;
 public class SpecialityListActivity extends MvpAppCompatActivity implements SpecialityListView {
     @InjectPresenter SpecialityListPresenter mPresenter;
 
-    @BindView(R.id.fab) FloatingActionButton mFab;
-
     @BindView(R.id.toolbar) Toolbar mToolbar;
 
     @BindView(R.id.speciality_list) RecyclerView mRecyclerView;
@@ -56,12 +54,6 @@ public class SpecialityListActivity extends MvpAppCompatActivity implements Spec
                 .setTitle(R.string.app_name)
                 .setOnCancelListener(dialog -> mPresenter.closeError())
                 .create();
-    }
-
-    @OnClick(R.id.fab)
-    public void actionButtonClicked(FloatingActionButton button) {
-        Snackbar.make(button, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show();
     }
 
     @Override

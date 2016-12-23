@@ -24,8 +24,7 @@
         <activity
             android:name=".ui.activities.SpecialityDetailsActivity"
             android:label="@string/title_speciality_details"
-            android:parentActivityName=".ui.activities.SpecialityListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName=".ui.activities.SpecialityListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.activities.SpecialityListActivity"/>

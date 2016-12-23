@@ -21,10 +21,6 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class SpecialityDetailsFragment extends MvpAppCompatFragment {
-    @Nullable
-    @BindView(R.id.toolbar_layout)
-    CollapsingToolbarLayout mToolbarLayout;
-
     @BindView(R.id.employee_list) RecyclerView mRecyclerView;
 
     private EmployeeRecyclerViewAdapter mAdapter;
@@ -46,10 +42,6 @@ public class SpecialityDetailsFragment extends MvpAppCompatFragment {
 
         mSpeciality = getArguments().getParcelable(EXTRA_SPECIALITY);
         mEmployees = getArguments().getParcelableArrayList(EXTRA_EMPLOYEES);
-
-        if (mToolbarLayout != null) {
-            mToolbarLayout.setTitle(mSpeciality == null ? "null" : mSpeciality.getName());
-        }
     }
 
     @Override
