@@ -110,6 +110,10 @@ public class Employee implements Parcelable {
         return birthday;
     }
 
+    public boolean hasImage() {
+        return imageUrl != null && imageUrl.length() > 0;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
