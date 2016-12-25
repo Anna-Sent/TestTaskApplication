@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.anna.sent.soft.expandablelayout.ExpandableLayout;
 import com.anna.sent.soft.testtaskapplication.R;
 import com.anna.sent.soft.testtaskapplication.mvp.models.Employee;
 import com.bumptech.glide.Glide;
@@ -15,8 +16,11 @@ import butterknife.ButterKnife;
 
 public class EmployeeViewHolder extends RecyclerView.ViewHolder {
     private final View mView;
-    @BindView(R.id.info_text) TextView mTextView;
+    @BindView(R.id.expandable_layout) ExpandableLayout mExpandableLayout;
+    @BindView(R.id.text_primary) TextView mTextViewPrimary;
+    @BindView(R.id.text_secondary) TextView mTextViewSecondary;
     @BindView(R.id.image) ImageView mImageView;
+    @BindView(R.id.primary) View mPrimaryView;
 
     public EmployeeViewHolder(View view) {
         super(view);
@@ -29,12 +33,18 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void update(Employee employee) {
-        mTextView.setText(employee == null ? "null" : employee.getName() + '\n' + employee.getBirthday());
+        if (employee != null) {
+            mTextViewPrimary.setText(employee.getName());
+            mTextViewSecondary.setText(employee.getBirthday());
+        }
+
         if (employee.hasImage()) {
             Context context = getView().getContext();
             Glide.with(context)
                     .load(employee.getImageUrl())
                     .into(mImageView);
         }
+
+        mPrimaryView.setOnClickListener(v -> mExpandableLayout.toggleExpansion());
     }
 }
