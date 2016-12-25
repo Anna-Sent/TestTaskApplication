@@ -10,8 +10,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -72,20 +70,20 @@ public class AllData implements Parcelable {
     }
 
     private void initCollections() {
-        HashSet<Speciality> set = new HashSet<>();
-        Stream.of(employees).forEach(employee -> set.addAll(employee.getSpecialities()));
-
-        availableSpecialities = new ArrayList<>(set);
-        Stream.of(availableSpecialities).sortBy(Speciality::getName);
-
-        employeesMap = new HashMap<>();
-        Stream.of(availableSpecialities).forEach(
-                speciality -> {
-                    ArrayList<Employee> employeesList = new ArrayList<>();
-                    employeesList.addAll(Stream.of(employees).filter(e -> e.getSpecialities().contains(speciality)).collect(Collectors.toList()));
-                    Stream.of(employeesList).sortBy(Employee::getName);
-                    employeesMap.put(speciality, employeesList);
-                });
+        availableSpecialities = Stream.of(employees)
+                .flatMap(employee -> Stream.of(employee.getSpecialities()))
+                .distinct()
+                .sortBy(Speciality::getName)
+                .collect(Collectors.toList());
+        employeesMap = Stream.of(availableSpecialities).collect(Collectors.toMap(
+                speciality -> speciality,
+                speciality -> new ArrayList<>(
+                        Stream.of(employees)
+                                .filter(e -> e.getSpecialities().contains(speciality))
+                                .map(e -> new EmployeeStringUtils(e))
+                                .sortBy(EmployeeStringUtils::nameToCompare)
+                                .map(e -> e.getEmployee())
+                                .collect(Collectors.toList()))));
     }
 
     @Override

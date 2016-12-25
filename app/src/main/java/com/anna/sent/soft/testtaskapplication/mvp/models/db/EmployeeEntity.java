@@ -39,7 +39,7 @@ class EmployeeEntity {
     EmployeeEntity(Employee employee) {
         this.firstName = employee.getFirstName();
         this.lastName = employee.getLastName();
-        this.birthday = employee.getBirthdayRaw();
+        this.birthday = employee.getBirthday();
         this.imageUrl = employee.getImageUrl();
     }
 }

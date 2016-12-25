@@ -2,4 +2,12 @@
 <resources>
     <string name="app_name">TestTaskApplication</string>
     <string name="title_speciality_details">Speciality Details</string>
+    <string name="date_format">%s г.</string>
+    <plurals name="age_format">
+        <item quantity="one">%d год</item>
+        <item quantity="few">%d года</item>
+        <item quantity="other">%d лет</item>
+        <item quantity="many">%d лет</item>
+        <item quantity="zero">до года</item>
+    </plurals>
 </resources>

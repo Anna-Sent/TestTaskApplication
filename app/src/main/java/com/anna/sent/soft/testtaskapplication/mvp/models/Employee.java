@@ -6,9 +6,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Employee implements Parcelable {
@@ -70,43 +68,7 @@ public class Employee implements Parcelable {
         return lastName;
     }
 
-    public String getName() {
-        return Character.toUpperCase(lastName.charAt(0)) +
-                lastName.substring(1, lastName.length()).toLowerCase() + ' ' +
-                Character.toUpperCase(firstName.charAt(0)) +
-                firstName.substring(1, firstName.length()).toLowerCase();
-    }
-
-    private static final String EMPTY_BIRTHDAY = String.valueOf('\u2014');
-    @SuppressWarnings({"AndroidLintSimpleDateFormat"})
-    private static final SimpleDateFormat SDF_RESULT = new SimpleDateFormat("dd.MM.yyyy");
-    @SuppressWarnings({"AndroidLintSimpleDateFormat"})
-    private static final SimpleDateFormat[] SDF_POSSIBLE = new SimpleDateFormat[]{
-            new SimpleDateFormat("dd-MM-yyyy"), new SimpleDateFormat("yyyy-MM-dd")
-    };
-
-    static {
-        for (SimpleDateFormat sdf : SDF_POSSIBLE) {
-            sdf.setLenient(false);
-        }
-    }
-
     public String getBirthday() {
-        if (birthday == null)
-            return EMPTY_BIRTHDAY;
-
-        for (SimpleDateFormat sdf : SDF_POSSIBLE) {
-            try {
-                Date date = sdf.parse(birthday);
-                return SDF_RESULT.format(date);
-            } catch (Exception e) {
-            }
-        }
-
-        return EMPTY_BIRTHDAY;
-    }
-
-    public String getBirthdayRaw() {
         return birthday;
     }
 
