@@ -51,6 +51,9 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
         closeError();
         showProgress();
 
+        // данные из базы могут загрузиться позже, чем данные с сервера
+        // надо как-то переписать по-другому
+        
         Subscription subscriptionLoadFromDb = mService.loadEmployeesFromDb()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
