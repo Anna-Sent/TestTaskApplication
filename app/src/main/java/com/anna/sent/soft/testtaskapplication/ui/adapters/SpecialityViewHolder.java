@@ -25,6 +25,6 @@ public class SpecialityViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void update(Speciality speciality) {
-        mTextView.setText(speciality == null ? "null" : speciality.getName());
+        mTextView.setText(speciality.getName());
     }
 }

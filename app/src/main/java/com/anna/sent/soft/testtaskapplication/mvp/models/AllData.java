@@ -80,9 +80,9 @@ public class AllData implements Parcelable {
                 speciality -> new ArrayList<>(
                         Stream.of(employees)
                                 .filter(e -> e.getSpecialities().contains(speciality))
-                                .map(e -> new EmployeeStringUtils(e))
+                                .map(EmployeeStringUtils::new)
                                 .sortBy(EmployeeStringUtils::nameToCompare)
-                                .map(e -> e.getEmployee())
+                                .map(EmployeeStringUtils::getEmployee)
                                 .collect(Collectors.toList()))));
     }
 

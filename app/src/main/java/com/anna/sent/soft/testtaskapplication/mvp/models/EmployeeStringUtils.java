@@ -11,7 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class EmployeeStringUtils {
-    private Employee employee;
+    private final Employee employee;
 
     public Employee getEmployee() {
         return employee;
@@ -103,7 +103,7 @@ public class EmployeeStringUtils {
 
     public String getSpecialities() {
         if (specialities == null) {
-            specialities = Stream.of(employee.getSpecialities()).map(s -> s.getName()).sorted().collect(Collectors.joining(", "));
+            specialities = Stream.of(employee.getSpecialities()).map(Speciality::getName).sorted().collect(Collectors.joining(", "));
         }
         return specialities;
     }

@@ -34,18 +34,16 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void update(Employee employee) {
-        if (employee != null) {
-            Context context = mView.getContext();
+        Context context = mView.getContext();
 
-            EmployeeStringUtils utils = new EmployeeStringUtils(employee);
-            mTextViewPrimary.setText(utils.getName() + '\n' + utils.getAge(context));
-            mTextViewSecondary.setText(utils.getBirthday(context) + '\n' + utils.getSpecialities());
+        EmployeeStringUtils utils = new EmployeeStringUtils(employee);
+        mTextViewPrimary.setText(utils.getName() + '\n' + utils.getAge(context));
+        mTextViewSecondary.setText(utils.getBirthday(context) + '\n' + utils.getSpecialities());
 
-            if (employee.hasImage()) {
-                Glide.with(context)
-                        .load(employee.getImageUrl())
-                        .into(mImageView);
-            }
+        if (employee.hasImage()) {
+            Glide.with(context)
+                    .load(employee.getImageUrl())
+                    .into(mImageView);
         }
 
         mPrimaryView.setOnClickListener(v -> mExpandableLayout.toggleExpansion());

@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindBool;
+import butterknife.ButterKnife;
 
 import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment.EXTRA_EMPLOYEES;
 import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment.EXTRA_SPECIALITY;
@@ -36,6 +37,7 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
         mActivity = activity;
         mSpecialities = specialities;
         mEmployees = employees;
+        ButterKnife.bind(this, activity);
     }
 
     @Override

@@ -2,8 +2,6 @@ package com.anna.sent.soft.testtaskapplication.ui.activities;
 
 import android.app.AlertDialog;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
@@ -24,7 +22,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class SpecialityListActivity extends MvpAppCompatActivity implements SpecialityListView {
     @InjectPresenter SpecialityListPresenter mPresenter;
