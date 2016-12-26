@@ -34,8 +34,6 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
         compositeSubscription.clear();
     }
 
-    private boolean mIsInLoading;
-
     @Inject Context mContext;
     @Inject TestTaskService mService;
 
@@ -50,31 +48,19 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
     }
 
     private void loadData() {
-        if (mIsInLoading) {
-            return;
-        }
-
-        mIsInLoading = true;
-
         closeError();
         showProgress();
-
-        // данные из базы могут загрузиться позже, чем данные с сервера
-        // надо как-то переписать по-другому
 
         Subscription subscriptionLoadFromDb = mService.loadEmployeesFromDb()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         employees -> {
-                            onLoadingFinish();
+                            hideProgress();
                             onLoadingSuccess(employees);
                             Log.d(TAG, "db request: succeeded");
                             Log.d(TAG, new GsonBuilder().setPrettyPrinting().create().toJson(employees));
                         },
-                        error -> {
-                            onLoadingFinish();
-                            Log.e(TAG, "db request: failed with error", error);
-                        },
+                        error -> Log.e(TAG, "db request: failed with error", error),
                         () -> Log.d(TAG, "db request: completed"));
         unsubscribeOnDestroy(subscriptionLoadFromDb);
 
@@ -82,6 +68,7 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         employees -> {
+                            hideProgress();
                             onLoadingSuccess(employees);
                             Log.d(TAG, "network request: succeeded");
                             Log.d(TAG, new GsonBuilder().setPrettyPrinting().create().toJson(employees));
@@ -93,17 +80,12 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
                             unsubscribeOnDestroy(subscriptionSaveToDb);
                         },
                         error -> {
+                            hideProgress();
                             onLoadingFailed(error);
                             Log.e(TAG, "network request: failed with error", error);
                         },
                         () -> Log.d(TAG, "network request: completed"));
         unsubscribeOnDestroy(subscriptionLoadFromServer);
-    }
-
-    private void onLoadingFinish() {
-        mIsInLoading = false;
-
-        hideProgress();
     }
 
     private void onLoadingSuccess(AllData allData) {

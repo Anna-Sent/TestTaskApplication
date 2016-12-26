@@ -22,7 +22,7 @@ public class TestTaskService {
         return mDbHelper.getEmployees();
     }
 
-    public Observable<Void> saveEmployeesToDb(final AllData allData) {
+    public Observable<AllData> saveEmployeesToDb(final AllData allData) {
         return mDbHelper.setEmployees(allData);
     }
 }

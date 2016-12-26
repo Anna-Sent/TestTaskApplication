@@ -116,17 +116,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         observer.onCompleted();
                     }
                 } catch (Exception e) {
-                    observer.onError(e);
+                    if (!observer.isUnsubscribed()) {
+                        observer.onError(e);
+                    }
                 }
             }
         })
                 .subscribeOn(Schedulers.io());
     }
 
-    public Observable<Void> setEmployees(AllData allData) {
-        return Observable.create(new Observable.OnSubscribe<Void>() {
+    public Observable<AllData> setEmployees(AllData allData) {
+        return Observable.create(new Observable.OnSubscribe<AllData>() {
             @Override
-            public void call(Subscriber<? super Void> observer) {
+            public void call(Subscriber<? super AllData> observer) {
                 try {
                     // очищаем все данные при очередном обновлении базы, поскольку у сотрудников нет ИД,
                     // получаемого с сервера, и мы не можем корректно обновить их данные
@@ -163,11 +165,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     }
 
                     if (!observer.isUnsubscribed()) {
-                        // no onNext
+                        observer.onNext(allData);
                         observer.onCompleted();
                     }
                 } catch (Exception e) {
-                    observer.onError(e);
+                    if (!observer.isUnsubscribed()) {
+                        observer.onError(e);
+                    }
                 }
             }
         })
