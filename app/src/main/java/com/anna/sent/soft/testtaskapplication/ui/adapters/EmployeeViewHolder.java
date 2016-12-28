@@ -37,8 +37,12 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder {
         Context context = mView.getContext();
 
         EmployeeStringUtils utils = new EmployeeStringUtils(employee);
-        mTextViewPrimary.setText(utils.getName() + '\n' + utils.getAge(context));
-        mTextViewSecondary.setText(utils.getBirthday(context) + '\n' + utils.getSpecialities());
+        mTextViewPrimary.setText(context.getString(R.string.primary_info,
+                utils.getName(),
+                utils.getAge(context)));
+        mTextViewSecondary.setText(context.getString(R.string.secondary_info,
+                utils.getBirthday(context),
+                utils.getSpecialities()));
 
         if (employee.hasImage()) {
             Glide.with(context)
