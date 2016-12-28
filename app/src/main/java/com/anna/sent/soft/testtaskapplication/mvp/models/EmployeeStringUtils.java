@@ -1,6 +1,7 @@
 package com.anna.sent.soft.testtaskapplication.mvp.models;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.anna.sent.soft.testtaskapplication.R;
 import com.annimon.stream.Collectors;
@@ -12,6 +13,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class EmployeeStringUtils {
+    private static final String TAG = EmployeeStringUtils.class.getSimpleName();
+
     private final Employee employee;
 
     public Employee getEmployee() {
@@ -45,6 +48,7 @@ public class EmployeeStringUtils {
             try {
                 birthday = sdf.parse(employee.getBirthday());
             } catch (Exception e) {
+                Log.e(TAG, "date not parsed", e);
             }
         }
     }
