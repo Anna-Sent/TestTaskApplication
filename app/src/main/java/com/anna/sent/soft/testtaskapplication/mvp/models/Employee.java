@@ -31,15 +31,8 @@ public class Employee implements Parcelable {
     private List<Speciality> specialities = new ArrayList<>();
 
     public final static Parcelable.Creator<Employee> CREATOR = new Creator<Employee>() {
-        @SuppressWarnings({"unchecked"})
         public Employee createFromParcel(Parcel in) {
-            Employee instance = new Employee();
-            instance.firstName = (String) in.readValue(String.class.getClassLoader());
-            instance.lastName = (String) in.readValue(String.class.getClassLoader());
-            instance.birthday = (String) in.readValue(String.class.getClassLoader());
-            instance.imageUrl = (String) in.readValue(String.class.getClassLoader());
-            in.readList(instance.specialities, Speciality.class.getClassLoader());
-            return instance;
+            return new Employee(in);
         }
 
         public Employee[] newArray(int size) {
@@ -48,6 +41,14 @@ public class Employee implements Parcelable {
     };
 
     public Employee() {
+    }
+
+    public Employee(Parcel in) {
+        firstName = in.readString();
+        lastName = in.readString();
+        birthday = in.readString();
+        imageUrl = in.readString();
+        in.readList(specialities, Speciality.class.getClassLoader());
     }
 
     public Employee(String firstName, String lastName, String birthday, String imageUrl, List<Speciality> specialities) {

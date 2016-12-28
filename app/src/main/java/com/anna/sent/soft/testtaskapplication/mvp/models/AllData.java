@@ -19,19 +19,20 @@ public class AllData implements Parcelable {
     private List<Employee> employees = new ArrayList<>();
 
     public final static Parcelable.Creator<AllData> CREATOR = new Creator<AllData>() {
-        @SuppressWarnings({"unchecked"})
         public AllData createFromParcel(Parcel in) {
-            AllData instance = new AllData();
-            in.readList(instance.employees, Employee.class.getClassLoader());
-            return instance;
+            return new AllData(in);
         }
 
         public AllData[] newArray(int size) {
-            return (new AllData[size]);
+            return new AllData[size];
         }
     };
 
     public AllData() {
+    }
+
+    public AllData(Parcel in) {
+        in.readList(employees, Employee.class.getClassLoader());
     }
 
     public AllData(List<Employee> employees) {

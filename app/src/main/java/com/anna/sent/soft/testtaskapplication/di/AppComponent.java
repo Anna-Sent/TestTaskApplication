@@ -14,10 +14,10 @@ import dagger.Component;
 @Singleton
 @Component(modules = {ContextModule.class, TestTaskModule.class})
 public interface AppComponent {
-    @SuppressWarnings({"unused"})
+    @SuppressWarnings("unused")
     Context getContext();
 
-    @SuppressWarnings({"unused"})
+    @SuppressWarnings("unused")
     TestTaskService getService();
 
     void inject(SpecialityListPresenter presenter);

@@ -16,12 +16,8 @@ public class Speciality implements Parcelable {
     private String name;
 
     public final static Parcelable.Creator<Speciality> CREATOR = new Creator<Speciality>() {
-        @SuppressWarnings({"unchecked"})
         public Speciality createFromParcel(Parcel in) {
-            Speciality instance = new Speciality();
-            instance.specialityId = (Integer) in.readValue(Integer.class.getClassLoader());
-            instance.name = (String) in.readValue(String.class.getClassLoader());
-            return instance;
+            return new Speciality(in);
         }
 
         public Speciality[] newArray(int size) {
@@ -30,6 +26,11 @@ public class Speciality implements Parcelable {
     };
 
     public Speciality() {
+    }
+
+    public Speciality(Parcel in) {
+        specialityId = in.readInt();
+        name = in.readString();
     }
 
     public Speciality(Integer specialityId, String name) {

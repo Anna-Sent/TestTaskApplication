@@ -9,6 +9,7 @@ import com.annimon.stream.Stream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class EmployeeStringUtils {
     private final Employee employee;
@@ -26,9 +27,8 @@ public class EmployeeStringUtils {
         initAge();
     }
 
-    @SuppressWarnings({"AndroidLintSimpleDateFormat"})
     private static final SimpleDateFormat[] SDF_POSSIBLE = new SimpleDateFormat[]{
-            new SimpleDateFormat("dd-MM-yyyy"), new SimpleDateFormat("yyyy-MM-dd")
+            new SimpleDateFormat("dd-MM-yyyy", Locale.US), new SimpleDateFormat("yyyy-MM-dd", Locale.US)
     };
 
     static {
@@ -68,8 +68,7 @@ public class EmployeeStringUtils {
     }
 
     private static final String EMPTY_BIRTHDAY = String.valueOf('\u2014');
-    @SuppressWarnings({"AndroidLintSimpleDateFormat"})
-    private static final SimpleDateFormat SDF_RESULT = new SimpleDateFormat("dd.MM.yyyy");
+    private static final SimpleDateFormat SDF_RESULT = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
 
     public String getBirthday(Context context) {
         return birthday == null ? EMPTY_BIRTHDAY : context.getString(R.string.date_format, SDF_RESULT.format(birthday));
@@ -108,8 +107,7 @@ public class EmployeeStringUtils {
         return specialities;
     }
 
-    @SuppressWarnings({"AndroidLintSimpleDateFormat"})
-    private static final SimpleDateFormat SDF_COMPARE = new SimpleDateFormat("yyyy.MM.dd");
+    private static final SimpleDateFormat SDF_COMPARE = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
 
     private String nameToCompare;
 
