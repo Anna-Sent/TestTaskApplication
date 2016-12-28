@@ -118,10 +118,10 @@ public class Employee implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(firstName);
-        dest.writeValue(lastName);
-        dest.writeValue(birthday);
-        dest.writeValue(imageUrl);
+        dest.writeString(firstName);
+        dest.writeString(lastName);
+        dest.writeString(birthday);
+        dest.writeString(imageUrl);
         dest.writeList(specialities);
     }
 

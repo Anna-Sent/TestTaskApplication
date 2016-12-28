@@ -67,8 +67,8 @@ public class Speciality implements Parcelable {
     }
 
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeValue(specialityId);
-        dest.writeValue(name);
+        dest.writeInt(specialityId);
+        dest.writeString(name);
     }
 
     public int describeContents() {
