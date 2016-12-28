@@ -10,6 +10,6 @@
         <item quantity="many">%d лет</item>
         <item quantity="zero">до года</item>
     </plurals>
-    <string name="primary_info">%s\n%s</string>
-    <string name="secondary_info">%s\n%s</string>
+    <string name="primary_info">%1$s\n%2$s</string>
+    <string name="secondary_info">%1$s\n%2$s</string>
 </resources>
