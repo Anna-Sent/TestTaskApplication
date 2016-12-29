@@ -48,7 +48,7 @@ public class EmployeeStringUtils {
             try {
                 birthday = sdf.parse(employee.getBirthday());
             } catch (Exception e) {
-                Log.e(TAG, "date not parsed", e);
+                Log.w(TAG, "date not parsed", e);
             }
         }
     }
