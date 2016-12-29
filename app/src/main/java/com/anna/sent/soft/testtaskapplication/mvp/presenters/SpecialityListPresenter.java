@@ -63,11 +63,12 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
                             Log.d(TAG, "db request: succeeded");
                             Log.d(TAG, new GsonBuilder().setPrettyPrinting().create().toJson(employees));
                         },
-                        error -> Log.e(TAG, "db request: failed with error", error),
-                        () -> Log.d(TAG, "db request: completed"));
+                        error ->
+                                Log.e(TAG, "db request: failed with error", error));
         unsubscribeOnDestroy(subscriptionLoadFromDb);
 
         Subscription subscriptionLoadFromServer = mService.loadEmployeesFromServer()
+                .flatMap(employees -> mService.saveEmployeesToDb(employees)) // надо ждать, пока данные сохранятся
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         employees -> {
@@ -75,19 +76,12 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
                             onLoadingSuccess(employees);
                             Log.d(TAG, "network request: succeeded");
                             Log.d(TAG, new GsonBuilder().setPrettyPrinting().create().toJson(employees));
-                            Subscription subscriptionSaveToDb = mService.saveEmployeesToDb(employees)
-                                    .subscribe(
-                                            x -> Log.d(TAG, "db save: succeeded, shouldn't be called"),
-                                            e -> Log.e(TAG, "db save: failed with error", e),
-                                            () -> Log.d(TAG, "db save: completed"));
-                            unsubscribeOnDestroy(subscriptionSaveToDb);
                         },
                         error -> {
                             hideProgress();
                             onLoadingFailed(error);
                             Log.e(TAG, "network request: failed with error", error);
-                        },
-                        () -> Log.d(TAG, "network request: completed"));
+                        });
         unsubscribeOnDestroy(subscriptionLoadFromServer);
     }
 

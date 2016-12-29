@@ -115,6 +115,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         observer.onNext(allData);
                         observer.onCompleted();
                     }
+
                 } catch (Exception e) {
                     if (!observer.isUnsubscribed()) {
                         observer.onError(e);
@@ -164,14 +165,13 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                         }
                     }
 
-                    if (!observer.isUnsubscribed()) {
-                        observer.onNext(allData);
-                        observer.onCompleted();
-                    }
+                    Log.d(TAG, "db: data is successfully saved");
                 } catch (Exception e) {
-                    if (!observer.isUnsubscribed()) {
-                        observer.onError(e);
-                    }
+                    Log.e(TAG, "db: failed to save data", e);
+                }
+
+                if (!observer.isUnsubscribed()) {
+                    observer.onNext(allData);
                 }
             }
         })
