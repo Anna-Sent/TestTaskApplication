@@ -34,7 +34,7 @@ public class TestTaskService {
         Observable<AllData> loadEmployeesFromDb = loadEmployeesFromDb()
                 .doOnNext(
                         employees ->
-                                Log.d(TAG, String.format("db request: succeeded\n%s", employees.toString())))
+                                Log.d(TAG, "db request: succeeded\n" + employees))
                 .doOnError(
                         error ->
                                 Log.e(TAG, "db request: failed with error", error));
@@ -42,7 +42,7 @@ public class TestTaskService {
         Observable<AllData> loadEmployeesFromNetwork = loadEmployeesFromNetwork()
                 .doOnNext(
                         employees ->
-                                Log.d(TAG, String.format("network request: succeeded\n%s", employees.toString())))
+                                Log.d(TAG, "network request: succeeded\n" + employees))
                 .doOnError(
                         error ->
                                 Log.e(TAG, "network request: failed with error", error))
