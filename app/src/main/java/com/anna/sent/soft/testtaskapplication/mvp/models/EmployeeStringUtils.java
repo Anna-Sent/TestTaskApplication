@@ -6,6 +6,7 @@ import android.util.Log;
 import com.anna.sent.soft.testtaskapplication.R;
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.gson.GsonBuilder;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -123,5 +124,10 @@ public class EmployeeStringUtils {
             nameToCompare = getName() + (birthday == null ? "" : SDF_COMPARE.format(birthday));
         }
         return nameToCompare;
+    }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + ": " + new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 }

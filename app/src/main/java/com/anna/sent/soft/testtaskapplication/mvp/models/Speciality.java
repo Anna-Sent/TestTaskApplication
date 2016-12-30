@@ -3,6 +3,7 @@ package com.anna.sent.soft.testtaskapplication.mvp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -64,6 +65,11 @@ public class Speciality implements Parcelable {
         int result = specialityId != null ? specialityId.hashCode() : 0;
         result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 
     public void writeToParcel(Parcel dest, int flags) {

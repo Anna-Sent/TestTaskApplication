@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -100,6 +101,11 @@ public class AllData implements Parcelable {
     @Override
     public int hashCode() {
         return employees != null ? employees.hashCode() : 0;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 
     public void writeToParcel(Parcel dest, int flags) {

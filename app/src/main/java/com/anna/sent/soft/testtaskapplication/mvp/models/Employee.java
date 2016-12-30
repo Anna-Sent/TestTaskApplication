@@ -3,6 +3,7 @@ package com.anna.sent.soft.testtaskapplication.mvp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -115,6 +116,11 @@ public class Employee implements Parcelable {
         result = 31 * result + (imageUrl != null ? imageUrl.hashCode() : 0);
         result = 31 * result + (specialities != null ? specialities.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 
     public void writeToParcel(Parcel dest, int flags) {
