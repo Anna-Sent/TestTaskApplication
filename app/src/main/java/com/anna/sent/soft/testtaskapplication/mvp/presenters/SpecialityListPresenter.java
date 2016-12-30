@@ -2,7 +2,6 @@ package com.anna.sent.soft.testtaskapplication.mvp.presenters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import com.anna.sent.soft.testtaskapplication.app.TestTaskApp;
 import com.anna.sent.soft.testtaskapplication.app.TestTaskService;
@@ -13,7 +12,6 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import javax.inject.Inject;
 
-import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -52,29 +50,8 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
         closeError();
         showProgress();
 
-        Observable<AllData> loadEmployeesFromDb = mService.loadEmployeesFromDb()
-                .doOnNext(
-                        employees ->
-                                Log.d(TAG, String.format("db request: succeeded\n%s", employees.toString())))
-                .doOnError(
-                        error ->
-                                Log.e(TAG, "db request: failed with error", error));
-
-        Observable<AllData> loadEmployeesFromNetwork = mService.loadEmployeesFromNetwork()
-                .doOnNext(
-                        employees ->
-                                Log.d(TAG, String.format("network request: succeeded\n%s", employees.toString())))
-                .doOnError(
-                        error ->
-                                Log.e(TAG, "network request: failed with error", error))
-                .flatMap(
-                        employees ->
-                                mService.saveEmployeesToDb(employees));
-
-        // 1. процессы загрузки данных из базы и из сети не происходят параллельно
-        // 2. процесс сохранения данных, полученных из сети, не происходит параллельно
         Subscription subscription =
-                Observable.concat(loadEmployeesFromDb.onErrorResumeNext(loadEmployeesFromNetwork), loadEmployeesFromNetwork)
+                mService.loadEmployees()
                         .subscribeOn(Schedulers.io())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(
