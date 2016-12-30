@@ -10,12 +10,13 @@ import com.anna.sent.soft.testtaskapplication.mvp.models.AllData;
 import com.anna.sent.soft.testtaskapplication.mvp.views.SpecialityListView;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.google.gson.GsonBuilder;
 
 import javax.inject.Inject;
 
+import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 import rx.subscriptions.CompositeSubscription;
 
 @InjectViewState
@@ -51,38 +52,41 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
         closeError();
         showProgress();
 
-        // данные из базы могут загрузиться позже, чем данные с сервера
-        // надо как-то переписать по-другому
-
-        Subscription subscriptionLoadFromDb = mService.loadEmployeesFromDb()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        employees -> {
-                            hideProgress();
-                            onLoadingSuccess(employees);
-                            Log.d(TAG, "db request: succeeded");
-                            Log.d(TAG, new GsonBuilder().setPrettyPrinting().create().toJson(employees));
-                        },
+        Observable<AllData> loadEmployeesFromDb = mService.loadEmployeesFromDb()
+                .doOnNext(
+                        employees ->
+                                Log.d(TAG, String.format("db request: succeeded\n%s", employees.toString())))
+                .doOnError(
                         error ->
                                 Log.e(TAG, "db request: failed with error", error));
-        unsubscribeOnDestroy(subscriptionLoadFromDb);
 
-        Subscription subscriptionLoadFromServer = mService.loadEmployeesFromServer()
-                .flatMap(employees -> mService.saveEmployeesToDb(employees)) // надо ждать, пока данные сохранятся
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        employees -> {
-                            hideProgress();
-                            onLoadingSuccess(employees);
-                            Log.d(TAG, "network request: succeeded");
-                            Log.d(TAG, new GsonBuilder().setPrettyPrinting().create().toJson(employees));
-                        },
-                        error -> {
-                            hideProgress();
-                            onLoadingFailed(error);
-                            Log.e(TAG, "network request: failed with error", error);
-                        });
-        unsubscribeOnDestroy(subscriptionLoadFromServer);
+        Observable<AllData> loadEmployeesFromNetwork = mService.loadEmployeesFromNetwork()
+                .doOnNext(
+                        employees ->
+                                Log.d(TAG, String.format("network request: succeeded\n%s", employees.toString())))
+                .doOnError(
+                        error ->
+                                Log.e(TAG, "network request: failed with error", error))
+                .flatMap(
+                        employees ->
+                                mService.saveEmployeesToDb(employees));
+
+        // 1. процессы загрузки данных из базы и из сети не происходят параллельно
+        // 2. процесс сохранения данных, полученных из сети, не происходит параллельно
+        Subscription subscription =
+                Observable.concat(loadEmployeesFromDb.onErrorResumeNext(loadEmployeesFromNetwork), loadEmployeesFromNetwork)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(
+                                employees -> {
+                                    hideProgress();
+                                    onLoadingSuccess(employees);
+                                },
+                                error -> {
+                                    hideProgress();
+                                    onLoadingFailed(error);
+                                });
+        unsubscribeOnDestroy(subscription);
     }
 
     private void onLoadingSuccess(AllData allData) {

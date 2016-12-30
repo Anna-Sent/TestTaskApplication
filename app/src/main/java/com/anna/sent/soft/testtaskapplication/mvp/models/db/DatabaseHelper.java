@@ -122,8 +122,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     }
                 }
             }
-        })
-                .subscribeOn(Schedulers.io());
+        });
     }
 
     public Observable<AllData> setEmployees(AllData allData) {
@@ -174,7 +173,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
                     observer.onNext(allData);
                 }
             }
-        })
-                .subscribeOn(Schedulers.io());
+        });
     }
 }

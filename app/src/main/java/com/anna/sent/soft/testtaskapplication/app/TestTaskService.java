@@ -14,7 +14,7 @@ public class TestTaskService {
         mDbHelper = dbHelper;
     }
 
-    public Observable<AllData> loadEmployeesFromServer() {
+    public Observable<AllData> loadEmployeesFromNetwork() {
         return mApi.getEmployees();
     }
 
