@@ -171,6 +171,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
                 if (!observer.isUnsubscribed()) {
                     observer.onNext(allData);
+                    observer.onCompleted();
                 }
             }
         });
