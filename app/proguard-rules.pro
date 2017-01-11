@@ -20,7 +20,6 @@
 -dontobfuscate
 
 -printusage dead_code.txt
--whyareyoukeeping kept_code.txt
 
 ## ButterKnife ##
 ## https://guides.codepath.com/android/Configuring-ProGuard#butterknife ##
@@ -45,7 +44,37 @@
   **[] $VALUES;
   public *;
 }
--keepresourcexmlelements manifest/application/meta-data@value=GlideModule
+
+## RxJava ##
+## https://gist.github.com/kosiara/487868792fbd3214f9c9 ##
+
+-keep class rx.schedulers.Schedulers {
+    public static <methods>;
+}
+
+-keep class rx.schedulers.ImmediateScheduler {
+    public <methods>;
+}
+
+-keep class rx.schedulers.TestScheduler {
+    public <methods>;
+}
+
+-keep class rx.schedulers.Schedulers {
+    public static ** test();
+}
+
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    long producerNode;
+    long consumerNode;
+}
+
+-dontwarn rx.internal.util.unsafe.**
 
 ## GSON ##
 ## https://guides.codepath.com/android/Configuring-ProGuard#gson ##
@@ -62,6 +91,7 @@
 -keepclasseswithmembernames class * {
     @icepick.* <fields>;
 }
+
 -keepnames class * { @icepick.State *;}
 
 ## Retrolambda ##
@@ -69,58 +99,34 @@
 
 -dontwarn java.lang.invoke.*
 
-## RxJava ##
-## https://gist.github.com/kosiara/487868792fbd3214f9c9 ##
-
--keep class rx.schedulers.Schedulers {
-    public static <methods>;
-}
--keep class rx.schedulers.ImmediateScheduler {
-    public <methods>;
-}
--keep class rx.schedulers.TestScheduler {
-    public <methods>;
-}
--keep class rx.schedulers.Schedulers {
-    public static ** test();
-}
--keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
-    long producerIndex;
-    long consumerIndex;
-}
--keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
-    long producerNode;
-    long consumerNode;
-}
-
 ## OkHttp3 ##
-## https://guides.codepath.com/android/Configuring-ProGuard#okhttp3 ##
+## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-okhttp3.pro ##
 
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
--dontnote okhttp3.**
 
-# Okio
+## Okio ##
+## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-okio.pro ##
+
 -keep class sun.misc.Unsafe { *; }
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+-dontwarn okio.**
 
-## Retrofit 2 ##
-## https://square.github.io/retrofit/ ##
+## Retrofit2 ##
+## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-retrofit2.pro##
 
-# Platform calls Class.forName on types which do not exist on Android to determine platform.
--dontnote retrofit2.Platform
-# Platform used when running on RoboVM on iOS. Will not be used at runtime.
--dontnote retrofit2.Platform$IOS$MainThreadExecutor
-# Platform used when running on Java 8 VMs. Will not be used at runtime.
--dontwarn retrofit2.Platform$Java8
-# Retain generic type information for use by reflection by converters and adapters.
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
 -keepattributes Signature
-# Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
 
 ## Moxy ##
 
@@ -175,4 +181,5 @@
 -keepclasseswithmembernames class * {
     @icepick.* <fields>;
 }
--keepnames class * { @icepick.State *;}
+
+-keepnames class * { @icepick.State *; }
