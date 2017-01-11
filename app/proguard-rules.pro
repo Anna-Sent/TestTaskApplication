@@ -19,8 +19,6 @@
 -dontoptimize
 -dontobfuscate
 
--printusage dead_code.txt
-
 ## ButterKnife ##
 ## https://guides.codepath.com/android/Configuring-ProGuard#butterknife ##
 

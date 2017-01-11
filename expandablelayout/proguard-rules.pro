@@ -15,3 +15,8 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+
+-dontoptimize
+-dontobfuscate
+
+-keep class com.anna.sent.soft.expandablelayout.** { *; }
