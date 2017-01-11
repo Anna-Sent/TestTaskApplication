@@ -19,10 +19,11 @@
 -dontoptimize
 -dontobfuscate
 
-# add all known-to-be-safely-shrinkable classes to the beginning of line below
--keep !com.android.support.**,!com.google.android.**,** { *; }
+-printusage dead_code.txt
+-whyareyoukeeping kept_code.txt
 
-## ButterKnife 7 ##
+## ButterKnife ##
+## https://guides.codepath.com/android/Configuring-ProGuard#butterknife ##
 
 -keep class butterknife.** { *; }
 -dontwarn butterknife.internal.**
@@ -36,89 +37,40 @@
     @butterknife.* <methods>;
 }
 
-## Glide specific rules ##
-## https://github.com/bumptech/glide ##
+## Glide ##
+## https://github.com/bumptech/glide#proguard ##
 
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-    **[] $VALUES;
-    public *;
+  **[] $VALUES;
+  public *;
 }
+-keepresourcexmlelements manifest/application/meta-data@value=GlideModule
 
-## Google AdMob specific rules ##
-## https://developers.google.com/admob/android/quick-start ##
+## GSON ##
+## https://guides.codepath.com/android/Configuring-ProGuard#gson ##
 
--keep public class com.google.ads.** {
-   public *;
-}
-
-## Google Play Services 4.3.23 specific rules ##
-## https://developer.android.com/google/play-services/setup.html#Proguard ##
-
--keep class * extends java.util.ListResourceBundle {
-    protected Object[][] getContents();
-}
-
--keep public class com.google.android.gms.common.internal.safeparcel.SafeParcelable {
-    public static final *** NULL;
-}
-
--keepnames @com.google.android.gms.common.annotation.KeepName class *
--keepclassmembernames class * {
-    @com.google.android.gms.common.annotation.KeepName *;
-}
-
--keepnames class * implements android.os.Parcelable {
-    public static final ** CREATOR;
-}
-
-## GSON 2.2.4 specific rules ##
-
-# Gson uses generic type information stored in a class file when working with fields. Proguard
-# removes such information by default, so configure it to keep all of it.
--keepattributes Signature
-
-# For using GSON @Expose annotation
--keepattributes *Annotation*
-
--keepattributes EnclosingMethod
-
-# Gson specific classes
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 
-# Application classes that will be serialized/deserialized over Gson
--keep class com.anna.sent.soft.testtaskapplication.mvp.models.** { *; }
-
-# Prevent proguard from stripping interface information from TypeAdapterFactory,
-# JsonSerializer, JsonDeserializer instances (so they can be used in @JsonAdapter)
--keep class * implements com.google.gson.TypeAdapterFactory
--keep class * implements com.google.gson.JsonSerializer
--keep class * implements com.google.gson.JsonDeserializer
-
 ## Icepick ##
+## https://github.com/frankiesardo/icepick#proguard ##
 
 -dontwarn icepick.**
+-keep class icepick.** { *; }
 -keep class **$$Icepick { *; }
 -keepclasseswithmembernames class * {
     @icepick.* <fields>;
 }
+-keepnames class * { @icepick.State *;}
 
-## Parceler rules ##
-## Source: https://github.com/johncarl81/parceler#configuring-proguard ##
+## Retrolambda ##
+## https://github.com/evant/gradle-retrolambda#proguard ##
 
--keep class * implements android.os.Parcelable {
-    public static final android.os.Parcelable$Creator *;
-}
-
--keep class org.parceler.Parceler$$Parcels
-
-## Retrolambda specific rules ##
-
-# as per official recommendation: https://github.com/evant/gradle-retrolambda#proguard
 -dontwarn java.lang.invoke.*
 
-## RxJava 0.21 ##
+## RxJava ##
+## https://gist.github.com/kosiara/487868792fbd3214f9c9 ##
 
 -keep class rx.schedulers.Schedulers {
     public static <methods>;
@@ -132,61 +84,43 @@
 -keep class rx.schedulers.Schedulers {
     public static ** test();
 }
-
-## SQLite ##
-
--keep class org.sqlite.** { *; }
--keep class org.sqlite.database.** { *; }
-
-## Dagger ProGuard rules ##
-## https://github.com/square/dagger ##
-
--dontwarn dagger.internal.codegen.**
--keepclassmembers,allowobfuscation class * {
-    @javax.inject.* *;
-    @dagger.* *;
-    <init>();
+-keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {
+    long producerIndex;
+    long consumerIndex;
+}
+-keepclassmembers class rx.internal.util.unsafe.BaseLinkedQueueProducerNodeRef {
+    long producerNode;
+    long consumerNode;
 }
 
--keep class dagger.* { *; }
--keep class javax.inject.* { *; }
--keep class * extends dagger.internal.Binding
--keep class * extends dagger.internal.ModuleAdapter
--keep class * extends dagger.internal.StaticInjection
-
-## OkHttp ##
+## OkHttp3 ##
+## https://guides.codepath.com/android/Configuring-ProGuard#okhttp3 ##
 
 -keepattributes Signature
 -keepattributes *Annotation*
 -keep class okhttp3.** { *; }
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
+-dontnote okhttp3.**
 
-## Retrofit 2.X ##
+# Okio
+-keep class sun.misc.Unsafe { *; }
+-dontwarn java.nio.file.*
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+## Retrofit 2 ##
 ## https://square.github.io/retrofit/ ##
 
--dontwarn retrofit2.**
--keep class retrofit2.** { *; }
+# Platform calls Class.forName on types which do not exist on Android to determine platform.
+-dontnote retrofit2.Platform
+# Platform used when running on RoboVM on iOS. Will not be used at runtime.
+-dontnote retrofit2.Platform$IOS$MainThreadExecutor
+# Platform used when running on Java 8 VMs. Will not be used at runtime.
+-dontwarn retrofit2.Platform$Java8
+# Retain generic type information for use by reflection by converters and adapters.
 -keepattributes Signature
+# Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
-
--keepclasseswithmembers class * {
-    @retrofit2.http.* <methods>;
-}
-
-## Support libraries ##
-
--keep public class android.support.v7.widget.** { *; }
--keep public class android.support.v7.internal.widget.** { *; }
--keep public class android.support.v7.internal.view.menu.** { *; }
-
--keep public class * extends android.support.v4.view.ActionProvider {
-    public <init>(android.content.Context);
-}
-
-## http://stackoverflow.com/questions/29679177/cardview-shadow-not-appearing-in-lollipop-after-obfuscate-with-proguard/29698051 ##
-
--keep class android.support.v7.widget.RoundRectDrawable { *; }
 
 ## Moxy ##
 
@@ -196,8 +130,10 @@
 -keep class **$$ViewStateClassNameProvider
 -keepnames class * extends com.arellomobile.mvp.*
 
-## OrmLite uses reflection ##
+## OrmLite ##
+## http://stackoverflow.com/questions/9853096/proguard-with-ormlite-on-android ##
 
+# OrmLite uses reflection
 -keep class com.j256.**
 -keepclassmembers class com.j256.** { *; }
 -keep enum com.j256.**
@@ -222,3 +158,21 @@
     # Add the ormlite field annotations that your model uses here
     <init>();
 }
+
+## Parceler ##
+## https://github.com/johncarl81/parceler#configuring-proguard ##
+
+-keep interface org.parceler.Parcel
+-keep @org.parceler.Parcel class * { *; }
+-keep class **$$Parcelable { *; }
+
+## Icepick ##
+## https://github.com/frankiesardo/icepick#proguard ##
+
+-dontwarn icepick.**
+-keep class icepick.** { *; }
+-keep class **$$Icepick { *; }
+-keepclasseswithmembernames class * {
+    @icepick.* <fields>;
+}
+-keepnames class * { @icepick.State *;}
