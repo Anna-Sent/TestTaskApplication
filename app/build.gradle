@@ -19,7 +19,13 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
+        debug {
+            applicationIdSuffix '.dev'
+            resValue "string", "app_name", "app${applicationIdSuffix}"
+        }
         release {
+            applicationIdSuffix '.prod'
+            resValue "string", "app_name", "app${applicationIdSuffix}"
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
