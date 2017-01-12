@@ -181,3 +181,9 @@
 }
 
 -keepnames class * { @icepick.State *; }
+
+## ExpandableLayout ##
+
+-keep class com.anna.sent.soft.expandablelayout.** { *; }
+-keep class com.anna.sent.soft.expandablelayout.ExpandableLayout$LayoutParams { *; }
+-keep class com.anna.sent.soft.expandablelayout.ExpandableLayout$SavedState { *; }
