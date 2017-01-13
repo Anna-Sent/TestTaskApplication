@@ -8,11 +8,14 @@ import android.view.ViewGroup;
 
 import com.anna.sent.soft.testtaskapplication.R;
 import com.anna.sent.soft.testtaskapplication.mvp.models.Employee;
+import com.anna.sent.soft.testtaskapplication.mvp.models.EmployeeListUtils;
 import com.anna.sent.soft.testtaskapplication.mvp.models.Speciality;
 import com.anna.sent.soft.testtaskapplication.ui.adapters.EmployeeRecyclerViewAdapter;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
-import java.util.ArrayList;
+import org.parceler.Parcels;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -29,7 +32,7 @@ public class SpecialityDetailsFragment extends MvpAppCompatFragment {
     public static final String EXTRA_EMPLOYEES = "employees";
 
     private Speciality mSpeciality;
-    private ArrayList<Employee> mEmployees;
+    private List<Employee> mEmployees;
 
     public SpecialityDetailsFragment() {
     }
@@ -38,8 +41,8 @@ public class SpecialityDetailsFragment extends MvpAppCompatFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mSpeciality = getArguments().getParcelable(EXTRA_SPECIALITY);
-        mEmployees = getArguments().getParcelableArrayList(EXTRA_EMPLOYEES);
+        mSpeciality = Parcels.unwrap(getArguments().getParcelable(EXTRA_SPECIALITY));
+        mEmployees = EmployeeListUtils.fromParcel(getArguments().getParcelable(EXTRA_EMPLOYEES));
     }
 
     @Override

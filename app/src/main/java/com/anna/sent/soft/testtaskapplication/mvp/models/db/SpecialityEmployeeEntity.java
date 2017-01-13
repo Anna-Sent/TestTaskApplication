@@ -13,6 +13,7 @@ class SpecialityEmployeeEntity {
         public static final String EMPLOYEE_ID = "employee_id";
     }
 
+    @SuppressWarnings("unused")
     @DatabaseField(columnName = Column.ID, generatedId = true)
     private int id;
 
@@ -35,13 +36,22 @@ class SpecialityEmployeeEntity {
     }
 
     public Employee createEmployee() {
-        return new Employee(employeeEntity.firstName, employeeEntity.lastName, employeeEntity.birthday, employeeEntity.imageUrl, null);
+        Employee employee = new Employee();
+        employee.setFirstName(employeeEntity.firstName);
+        employee.setLastName(employeeEntity.lastName);
+        employee.setBirthday(employeeEntity.birthday);
+        employee.setImageUrl(employeeEntity.imageUrl);
+        return employee;
     }
 
     public Speciality createSpeciality() {
-        return new Speciality(specialityEntity.specialityId, specialityEntity.name);
+        Speciality speciality = new Speciality();
+        speciality.setSpecialityId(specialityEntity.specialityId);
+        speciality.setName(specialityEntity.name);
+        return speciality;
     }
 
+    @SuppressWarnings("unused")
     SpecialityEmployeeEntity() {
     }
 

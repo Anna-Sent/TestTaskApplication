@@ -44,7 +44,7 @@ public class EmployeeViewHolder extends RecyclerView.ViewHolder {
                 utils.getBirthday(context),
                 utils.getSpecialities()));
 
-        if (employee.hasImage()) {
+        if (employee.getImageUrl() != null) {
             Glide.with(context)
                     .load(employee.getImageUrl())
                     .into(mImageView);

@@ -16,7 +16,6 @@ import com.anna.sent.soft.testtaskapplication.ui.adapters.SpecialityRecyclerView
 import com.arellomobile.mvp.MvpAppCompatActivity;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -73,7 +72,7 @@ public class SpecialityListActivity extends MvpAppCompatActivity implements Spec
     }
 
     @Override
-    public void setSpecialities(List<Speciality> specialities, Map<Speciality, ArrayList<Employee>> employees) {
+    public void setSpecialities(List<Speciality> specialities, Map<Speciality, List<Employee>> employees) {
         mAdapter = new SpecialityRecyclerViewAdapter(this, specialities, employees);
         mRecyclerView.setAdapter(mAdapter);
     }

@@ -11,11 +11,13 @@ import android.view.ViewGroup;
 
 import com.anna.sent.soft.testtaskapplication.R;
 import com.anna.sent.soft.testtaskapplication.mvp.models.Employee;
+import com.anna.sent.soft.testtaskapplication.mvp.models.EmployeeListUtils;
 import com.anna.sent.soft.testtaskapplication.mvp.models.Speciality;
 import com.anna.sent.soft.testtaskapplication.ui.activities.SpecialityDetailsActivity;
 import com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment;
 
-import java.util.ArrayList;
+import org.parceler.Parcels;
+
 import java.util.List;
 import java.util.Map;
 
@@ -29,11 +31,11 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
     @BindBool(R.bool.two_panes) boolean mTwoPanes;
     private final AppCompatActivity mActivity;
     private final List<Speciality> mSpecialities;
-    private final Map<Speciality, ArrayList<Employee>> mEmployees;
+    private final Map<Speciality, List<Employee>> mEmployees;
 
     public SpecialityRecyclerViewAdapter(AppCompatActivity activity,
                                          List<Speciality> specialities,
-                                         Map<Speciality, ArrayList<Employee>> employees) {
+                                         Map<Speciality, List<Employee>> employees) {
         mActivity = activity;
         mSpecialities = specialities;
         mEmployees = employees;
@@ -55,8 +57,8 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
         holder.getView().setOnClickListener(v -> {
             if (mTwoPanes) {
                 Bundle arguments = new Bundle();
-                arguments.putParcelable(EXTRA_SPECIALITY, speciality);
-                arguments.putParcelableArrayList(EXTRA_EMPLOYEES, mEmployees.get(speciality));
+                arguments.putParcelable(EXTRA_SPECIALITY, Parcels.wrap(speciality));
+                arguments.putParcelable(EXTRA_EMPLOYEES, EmployeeListUtils.toParcel(mEmployees.get(speciality)));
                 SpecialityDetailsFragment fragment = new SpecialityDetailsFragment();
                 fragment.setArguments(arguments);
                 mActivity.getSupportFragmentManager()
@@ -66,8 +68,8 @@ public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<Speciali
             } else {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, SpecialityDetailsActivity.class);
-                intent.putExtra(EXTRA_SPECIALITY, speciality);
-                intent.putExtra(EXTRA_EMPLOYEES, mEmployees.get(speciality));
+                intent.putExtra(EXTRA_SPECIALITY, Parcels.wrap(speciality));
+                intent.putExtra(EXTRA_EMPLOYEES, EmployeeListUtils.toParcel(mEmployees.get(speciality)));
                 context.startActivity(intent);
             }
         });

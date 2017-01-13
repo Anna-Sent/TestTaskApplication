@@ -14,6 +14,7 @@ class EmployeeEntity {
         public static final String IMAGE_URL = "image_url";
     }
 
+    @SuppressWarnings("unused")
     @DatabaseField(columnName = Column.ID, generatedId = true)
     private int id;
 
@@ -33,6 +34,7 @@ class EmployeeEntity {
     @DatabaseField(columnName = Column.IMAGE_URL)
     String imageUrl;
 
+    @SuppressWarnings("unused")
     EmployeeEntity() {
     }
 
