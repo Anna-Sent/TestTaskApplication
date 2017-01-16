@@ -8,11 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.anna.sent.soft.testtaskapplication.R;
-import com.anna.sent.soft.testtaskapplication.mvp.models.Employee;
-import com.anna.sent.soft.testtaskapplication.mvp.models.Speciality;
 import com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment;
-
-import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 
@@ -34,10 +30,10 @@ public class SpecialityDetailsActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            Speciality speciality = getIntent().getParcelableExtra(EXTRA_SPECIALITY);
-            ArrayList<Employee> employees = getIntent().getParcelableArrayListExtra(EXTRA_EMPLOYEES);
-            arguments.putParcelable(EXTRA_SPECIALITY, speciality);
-            arguments.putParcelableArrayList(EXTRA_EMPLOYEES, employees);
+            arguments.putParcelable(EXTRA_SPECIALITY,
+                    getIntent().getParcelableExtra(EXTRA_SPECIALITY));
+            arguments.putParcelable(EXTRA_EMPLOYEES,
+                    getIntent().getParcelableExtra(EXTRA_EMPLOYEES));
             SpecialityDetailsFragment fragment = new SpecialityDetailsFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager()

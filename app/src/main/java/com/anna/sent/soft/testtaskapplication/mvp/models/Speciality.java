@@ -4,36 +4,20 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import org.parceler.ParcelConstructor;
+import org.parceler.Parcel;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NonNull;
+import lombok.Data;
 
-@org.parceler.Parcel
-@EqualsAndHashCode
+@org.parceler.Parcel(Parcel.Serialization.FIELD)
+@Data
 public class Speciality {
     @SerializedName("specialty_id")
     @Expose
-    @NonNull
-    @Getter
     Integer specialityId;
 
     @SerializedName("name")
     @Expose
-    @NonNull
-    @Getter
     String name;
-
-    public Speciality() {
-    }
-
-    @ParcelConstructor
-    public Speciality(Integer specialityId, String name) {
-        super();
-        this.specialityId = specialityId;
-        this.name = name;
-    }
 
     @Override
     public String toString() {

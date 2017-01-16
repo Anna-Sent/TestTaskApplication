@@ -47,7 +47,7 @@ public class AllData implements Parcelable {
     }
 
     private List<Speciality> availableSpecialities;
-    private Map<Speciality, ArrayList<Employee>> employeesMap;
+    private Map<Speciality, List<Employee>> employeesMap;
 
     public List<Speciality> getSpecialities() {
         if (employees == null)
@@ -60,7 +60,7 @@ public class AllData implements Parcelable {
         return availableSpecialities;
     }
 
-    public Map<Speciality, ArrayList<Employee>> getEmployeesMap() {
+    public Map<Speciality, List<Employee>> getEmployeesMap() {
         if (employees == null)
             return Collections.emptyMap();
 

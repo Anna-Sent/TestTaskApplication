@@ -12,6 +12,7 @@ class SpecialityEntity {
         public static final String NAME = "name";
     }
 
+    @SuppressWarnings("unused")
     @DatabaseField(columnName = Column.ID, generatedId = true)
     private int id;
 
@@ -25,6 +26,7 @@ class SpecialityEntity {
     @DatabaseField(columnName = Column.NAME, canBeNull = false)
     String name;
 
+    @SuppressWarnings("unused")
     SpecialityEntity() {
     }
 
