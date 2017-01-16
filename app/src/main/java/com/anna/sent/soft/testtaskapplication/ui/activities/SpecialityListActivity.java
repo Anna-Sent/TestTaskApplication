@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import com.anna.sent.soft.testtaskapplication.BuildConfig;
 import com.anna.sent.soft.testtaskapplication.R;
 import com.anna.sent.soft.testtaskapplication.app.TestTaskApp;
 import com.anna.sent.soft.testtaskapplication.di.AppComponent;
@@ -23,11 +24,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class SpecialityListActivity extends MvpAppCompatActivity implements SpecialityListView {
-    @InjectPresenter SpecialityListPresenter mPresenter;
+    @InjectPresenter
+    SpecialityListPresenter mPresenter;
 
-    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
 
-    @BindView(R.id.speciality_list) RecyclerView mRecyclerView;
+    @BindView(R.id.speciality_list)
+    RecyclerView mRecyclerView;
 
     private SpecialityRecyclerViewAdapter mAdapter;
 
@@ -37,6 +41,7 @@ public class SpecialityListActivity extends MvpAppCompatActivity implements Spec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_speciality_list);
+        setTitle(getTitle() + " " + BuildConfig.FLAVOR + " " + BuildConfig.TEST_INT);
 
         AppComponent component = TestTaskApp.getAppComponent();
         component.inject(mPresenter);

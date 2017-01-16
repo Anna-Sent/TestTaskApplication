@@ -17,6 +17,7 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        buildConfigField "int", "TEST_INT", "0"
     }
     buildTypes {
         debug {
@@ -30,6 +31,10 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    productFlavors {
+        foo { buildConfigField "int", "TEST_INT", "1" }
+        bar { buildConfigField "int", "TEST_INT", "2" }
     }
 }
 
