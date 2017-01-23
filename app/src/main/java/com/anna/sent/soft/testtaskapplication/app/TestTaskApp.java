@@ -11,15 +11,6 @@ import com.anna.sent.soft.testtaskapplication.di.modules.ContextModule;
 public class TestTaskApp extends Application {
     private static AppComponent sAppComponent;
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-
-        sAppComponent = DaggerAppComponent.builder()
-                .contextModule(new ContextModule(this))
-                .build();
-    }
-
     public static AppComponent getAppComponent() {
         return sAppComponent;
     }
@@ -28,5 +19,14 @@ public class TestTaskApp extends Application {
     @VisibleForTesting
     public static void setAppComponent(@NonNull AppComponent appComponent) {
         sAppComponent = appComponent;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        sAppComponent = DaggerAppComponent.builder()
+                .contextModule(new ContextModule(this))
+                .build();
     }
 }

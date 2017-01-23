@@ -15,15 +15,26 @@ import java.util.Locale;
 
 public class EmployeeStringUtils {
     private static final String TAG = EmployeeStringUtils.class.getSimpleName();
+    private static final SimpleDateFormat[] SDF_POSSIBLE = new SimpleDateFormat[]{
+            new SimpleDateFormat("dd-MM-yyyy", Locale.US), new SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    };
+    private static final String EMPTY_BIRTHDAY = String.valueOf('\u2014');
+    private static final SimpleDateFormat SDF_RESULT = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+    private static final String INVALID_AGE = String.valueOf('\u2014');
+    private static final SimpleDateFormat SDF_COMPARE = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
 
-    private final Employee employee;
-
-    public Employee getEmployee() {
-        return employee;
+    static {
+        for (SimpleDateFormat sdf : SDF_POSSIBLE) {
+            sdf.setLenient(false);
+        }
     }
 
+    private final Employee employee;
     private Date birthday;
     private int age = -1;
+    private String name;
+    private String specialities;
+    private String nameToCompare;
 
     public EmployeeStringUtils(Employee employee) {
         this.employee = employee;
@@ -31,14 +42,8 @@ public class EmployeeStringUtils {
         initAge();
     }
 
-    private static final SimpleDateFormat[] SDF_POSSIBLE = new SimpleDateFormat[]{
-            new SimpleDateFormat("dd-MM-yyyy", Locale.US), new SimpleDateFormat("yyyy-MM-dd", Locale.US)
-    };
-
-    static {
-        for (SimpleDateFormat sdf : SDF_POSSIBLE) {
-            sdf.setLenient(false);
-        }
+    public Employee getEmployee() {
+        return employee;
     }
 
     private void initBirthday() {
@@ -72,14 +77,9 @@ public class EmployeeStringUtils {
         }
     }
 
-    private static final String EMPTY_BIRTHDAY = String.valueOf('\u2014');
-    private static final SimpleDateFormat SDF_RESULT = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
-
     public String getBirthday(Context context) {
         return birthday == null ? EMPTY_BIRTHDAY : context.getString(R.string.date_format, SDF_RESULT.format(birthday));
     }
-
-    private static final String INVALID_AGE = String.valueOf('\u2014');
 
     public int getAge() {
         return age;
@@ -88,8 +88,6 @@ public class EmployeeStringUtils {
     public String getAge(Context context) {
         return age < 0 ? INVALID_AGE : context.getResources().getQuantityString(R.plurals.age_format, age, age);
     }
-
-    private String name;
 
     public String getName() {
         if (name == null) {
@@ -103,18 +101,12 @@ public class EmployeeStringUtils {
         return name;
     }
 
-    private String specialities;
-
     public String getSpecialities() {
         if (specialities == null) {
             specialities = Stream.of(employee.getSpecialities()).map(Speciality::getName).sorted().collect(Collectors.joining(", "));
         }
         return specialities;
     }
-
-    private static final SimpleDateFormat SDF_COMPARE = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
-
-    private String nameToCompare;
 
     // сортируем по имени (сначала фамилия, потом имя) и по дате рождения
     // (сначала идут более старые сотрудники)

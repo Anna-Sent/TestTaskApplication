@@ -15,10 +15,6 @@ import java.util.List;
 import java.util.Map;
 
 public class AllData implements Parcelable {
-    @SerializedName("response")
-    @Expose
-    private List<Employee> employees = new ArrayList<>();
-
     public final static Parcelable.Creator<AllData> CREATOR = new Creator<AllData>() {
         public AllData createFromParcel(Parcel in) {
             return new AllData(in);
@@ -28,6 +24,11 @@ public class AllData implements Parcelable {
             return new AllData[size];
         }
     };
+    @SerializedName("response")
+    @Expose
+    private List<Employee> employees = new ArrayList<>();
+    private List<Speciality> availableSpecialities;
+    private Map<Speciality, List<Employee>> employeesMap;
 
     public AllData() {
     }
@@ -45,9 +46,6 @@ public class AllData implements Parcelable {
     public List<Employee> getEmployees() {
         return employees;
     }
-
-    private List<Speciality> availableSpecialities;
-    private Map<Speciality, List<Employee>> employeesMap;
 
     public List<Speciality> getSpecialities() {
         if (employees == null)

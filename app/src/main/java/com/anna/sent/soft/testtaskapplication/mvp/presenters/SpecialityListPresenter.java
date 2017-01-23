@@ -22,6 +22,12 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
     private static final String TAG = SpecialityListPresenter.class.getSimpleName();
 
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
+    @Inject Context mContext;
+    @Inject TestTaskService mService;
+
+    public SpecialityListPresenter() {
+        TestTaskApp.getAppComponent().inject(this);
+    }
 
     protected void unsubscribeOnDestroy(@NonNull Subscription subscription) {
         compositeSubscription.add(subscription);
@@ -31,13 +37,6 @@ public class SpecialityListPresenter extends MvpPresenter<SpecialityListView> {
     public void onDestroy() {
         super.onDestroy();
         compositeSubscription.clear();
-    }
-
-    @Inject Context mContext;
-    @Inject TestTaskService mService;
-
-    public SpecialityListPresenter() {
-        TestTaskApp.getAppComponent().inject(this);
     }
 
     @Override

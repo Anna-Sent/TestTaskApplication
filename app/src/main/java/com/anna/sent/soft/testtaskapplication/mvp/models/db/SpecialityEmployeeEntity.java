@@ -7,25 +7,26 @@ import com.j256.ormlite.table.DatabaseTable;
 
 @DatabaseTable(tableName = "speciality_employee")
 class SpecialityEmployeeEntity {
-    public static class Column {
-        public static final String ID = "_id";
-        public static final String SPECIALITY_ID = "speciality_id";
-        public static final String EMPLOYEE_ID = "employee_id";
-    }
-
     @SuppressWarnings("unused")
     @DatabaseField(columnName = Column.ID, generatedId = true)
     private int id;
+    @DatabaseField(columnName = Column.EMPLOYEE_ID, foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    private EmployeeEntity employeeEntity;
+    @DatabaseField(columnName = Column.SPECIALITY_ID, foreign = true, foreignAutoRefresh = true, canBeNull = false)
+    private SpecialityEntity specialityEntity;
+
+    @SuppressWarnings("unused")
+    SpecialityEmployeeEntity() {
+    }
+
+    SpecialityEmployeeEntity(EmployeeEntity employeeEntity, SpecialityEntity specialityEntity) {
+        this.employeeEntity = employeeEntity;
+        this.specialityEntity = specialityEntity;
+    }
 
     public int getId() {
         return id;
     }
-
-    @DatabaseField(columnName = Column.EMPLOYEE_ID, foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private EmployeeEntity employeeEntity;
-
-    @DatabaseField(columnName = Column.SPECIALITY_ID, foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private SpecialityEntity specialityEntity;
 
     public EmployeeEntity getEmployeeEntity() {
         return employeeEntity;
@@ -51,12 +52,9 @@ class SpecialityEmployeeEntity {
         return speciality;
     }
 
-    @SuppressWarnings("unused")
-    SpecialityEmployeeEntity() {
-    }
-
-    SpecialityEmployeeEntity(EmployeeEntity employeeEntity, SpecialityEntity specialityEntity) {
-        this.employeeEntity = employeeEntity;
-        this.specialityEntity = specialityEntity;
+    public static class Column {
+        public static final String ID = "_id";
+        public static final String SPECIALITY_ID = "speciality_id";
+        public static final String EMPLOYEE_ID = "employee_id";
     }
 }

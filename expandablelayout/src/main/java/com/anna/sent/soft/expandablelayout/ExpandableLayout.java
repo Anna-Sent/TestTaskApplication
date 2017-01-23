@@ -402,40 +402,6 @@ public class ExpandableLayout extends LinearLayout {
         }
     }
 
-    private static class SavedState extends BaseSavedState {
-
-        boolean isExpanded;
-
-        public SavedState(Parcel source) {
-            super(source);
-            isExpanded = source.readInt() == 1;
-        }
-
-        public SavedState(Parcelable superState) {
-            super(superState);
-        }
-
-        @Override
-        public void writeToParcel(Parcel dest, int flags) {
-            super.writeToParcel(dest, flags);
-            dest.writeInt(isExpanded ? 1 : 0);
-        }
-
-        @SuppressWarnings("unused")
-        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
-
-            @Override
-            public SavedState createFromParcel(Parcel source) {
-                return new SavedState(source);
-            }
-
-            @Override
-            public SavedState[] newArray(int size) {
-                return new SavedState[size];
-            }
-        };
-    }
-
     @Override
     public LayoutParams generateLayoutParams(AttributeSet attrs) {
         return new LayoutParams(this.getContext(), attrs);
@@ -456,6 +422,46 @@ public class ExpandableLayout extends LinearLayout {
     @Override
     protected boolean checkLayoutParams(android.view.ViewGroup.LayoutParams p) {
         return super.checkLayoutParams(p) && (p instanceof LayoutParams);
+    }
+
+    public interface OnExpandListener {
+        void onToggle(ExpandableLayout view, View child, boolean isExpanded);
+
+        void onExpandOffset(ExpandableLayout view, View child,
+                            float offset, boolean isExpanding);
+    }
+
+    private static class SavedState extends BaseSavedState {
+
+        @SuppressWarnings("unused")
+        public static final Creator<SavedState> CREATOR = new Creator<SavedState>() {
+
+            @Override
+            public SavedState createFromParcel(Parcel source) {
+                return new SavedState(source);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+        boolean isExpanded;
+
+        public SavedState(Parcel source) {
+            super(source);
+            isExpanded = source.readInt() == 1;
+        }
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(isExpanded ? 1 : 0);
+        }
     }
 
     public static class LayoutParams extends LinearLayout.LayoutParams {
@@ -506,12 +512,5 @@ public class ExpandableLayout extends LinearLayout {
         public void setHeight(int height) {
             this.height = height;
         }
-    }
-
-    public interface OnExpandListener {
-        void onToggle(ExpandableLayout view, View child, boolean isExpanded);
-
-        void onExpandOffset(ExpandableLayout view, View child,
-                            float offset, boolean isExpanding);
     }
 }

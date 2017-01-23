@@ -22,15 +22,11 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 public class SpecialityDetailsFragment extends MvpAppCompatFragment {
-    @BindView(R.id.employee_list) RecyclerView mRecyclerView;
-
-    private EmployeeRecyclerViewAdapter mAdapter;
-
-    private Unbinder mUnbinder;
-
     public static final String EXTRA_SPECIALITY = "speciality";
     public static final String EXTRA_EMPLOYEES = "employees";
-
+    @BindView(R.id.employee_list) RecyclerView mRecyclerView;
+    private EmployeeRecyclerViewAdapter mAdapter;
+    private Unbinder mUnbinder;
     private Speciality mSpeciality;
     private List<Employee> mEmployees;
 

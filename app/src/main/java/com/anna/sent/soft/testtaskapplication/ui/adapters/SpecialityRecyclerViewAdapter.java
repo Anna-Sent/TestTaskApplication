@@ -28,10 +28,10 @@ import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDeta
 import static com.anna.sent.soft.testtaskapplication.ui.fragments.SpecialityDetailsFragment.EXTRA_SPECIALITY;
 
 public class SpecialityRecyclerViewAdapter extends RecyclerView.Adapter<SpecialityViewHolder> {
-    @BindBool(R.bool.two_panes) boolean mTwoPanes;
     private final AppCompatActivity mActivity;
     private final List<Speciality> mSpecialities;
     private final Map<Speciality, List<Employee>> mEmployees;
+    @BindBool(R.bool.two_panes) boolean mTwoPanes;
 
     public SpecialityRecyclerViewAdapter(AppCompatActivity activity,
                                          List<Speciality> specialities,

@@ -20,7 +20,6 @@ import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.schedulers.Schedulers;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = DatabaseHelper.class.getSimpleName();
@@ -28,14 +27,12 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static final String DATABASE_NAME = "employees.db";
 
     private static final int DATABASE_VERSION = 3;
-
-    public DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
-    }
-
     private Dao<EmployeeEntity, Integer> mEmployeeDao;
     private Dao<SpecialityEntity, Integer> mSpecialityDao;
     private Dao<SpecialityEmployeeEntity, Integer> mSpecialityEmployeeDao;
+    public DatabaseHelper(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
 
     @Override
     public void onCreate(SQLiteDatabase db, ConnectionSource connectionSource) {
