@@ -30,6 +30,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private Dao<EmployeeEntity, Integer> mEmployeeDao;
     private Dao<SpecialityEntity, Integer> mSpecialityDao;
     private Dao<SpecialityEmployeeEntity, Integer> mSpecialityEmployeeDao;
+
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
