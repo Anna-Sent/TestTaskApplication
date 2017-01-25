@@ -6,17 +6,26 @@ import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 
 @org.parceler.Parcel(Parcel.Serialization.FIELD)
-@Data
+@Getter
+@EqualsAndHashCode(doNotUseGetters = true)
+@NoArgsConstructor(force = true)
+@AllArgsConstructor(suppressConstructorProperties = true)
 public class Speciality {
     @SerializedName("specialty_id")
     @Expose
+    @NonNull
     Integer specialityId;
 
     @SerializedName("name")
     @Expose
+    @NonNull
     String name;
 
     @Override

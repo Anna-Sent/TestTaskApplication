@@ -5,50 +5,49 @@ import com.anna.sent.soft.testtaskapplication.mvp.models.Speciality;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Value;
+
 @DatabaseTable(tableName = "speciality_employee")
+@Value
+@NoArgsConstructor(force = true)
+@AllArgsConstructor(suppressConstructorProperties = true)
 class SpecialityEmployeeEntity {
-    @SuppressWarnings("unused")
     @DatabaseField(columnName = Column.ID, generatedId = true)
-    private int id;
+    int id;
+
     @DatabaseField(columnName = Column.EMPLOYEE_ID, foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private EmployeeEntity employeeEntity;
+    @NonNull
+    EmployeeEntity employeeEntity;
+
     @DatabaseField(columnName = Column.SPECIALITY_ID, foreign = true, foreignAutoRefresh = true, canBeNull = false)
-    private SpecialityEntity specialityEntity;
+    @NonNull
+    SpecialityEntity specialityEntity;
 
-    @SuppressWarnings("unused")
-    SpecialityEmployeeEntity() {
-    }
-
-    SpecialityEmployeeEntity(EmployeeEntity employeeEntity, SpecialityEntity specialityEntity) {
+    public SpecialityEmployeeEntity(@NonNull EmployeeEntity employeeEntity, @NonNull SpecialityEntity specialityEntity) {
+        this.id = 0;
         this.employeeEntity = employeeEntity;
         this.specialityEntity = specialityEntity;
     }
 
-    public int getId() {
-        return id;
-    }
-
-    public EmployeeEntity getEmployeeEntity() {
-        return employeeEntity;
-    }
-
-    public SpecialityEntity getSpecialityEntity() {
-        return specialityEntity;
-    }
-
-    public Employee createEmployee() {
-        Employee employee = new Employee();
-        employee.setFirstName(employeeEntity.firstName);
-        employee.setLastName(employeeEntity.lastName);
-        employee.setBirthday(employeeEntity.birthday);
-        employee.setImageUrl(employeeEntity.imageUrl);
+    Employee createEmployee() {
+        Employee employee = new Employee(
+                employeeEntity.getFirstName(),
+                employeeEntity.getLastName(),
+                employeeEntity.getBirthday(),
+                employeeEntity.getImageUrl(),
+                new ArrayList<>());
         return employee;
     }
 
-    public Speciality createSpeciality() {
-        Speciality speciality = new Speciality();
-        speciality.setSpecialityId(specialityEntity.specialityId);
-        speciality.setName(specialityEntity.name);
+    Speciality createSpeciality() {
+        Speciality speciality = new Speciality(
+                specialityEntity.getSpecialityId(),
+                specialityEntity.getName());
         return speciality;
     }
 

@@ -4,27 +4,30 @@ import com.anna.sent.soft.testtaskapplication.mvp.models.Speciality;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Value;
+
 @DatabaseTable(tableName = "speciality")
+@Value
+@NoArgsConstructor(force = true)
+@AllArgsConstructor(suppressConstructorProperties = true)
 class SpecialityEntity {
+    @DatabaseField(columnName = Column.ID, generatedId = true)
+    int id;
+
     @DatabaseField(columnName = Column.SPECIALITY_ID, canBeNull = false)
     int specialityId;
+
     @DatabaseField(columnName = Column.NAME, canBeNull = false)
+    @NonNull
     String name;
-    @SuppressWarnings("unused")
-    @DatabaseField(columnName = Column.ID, generatedId = true)
-    private int id;
 
-    @SuppressWarnings("unused")
-    SpecialityEntity() {
-    }
-
-    SpecialityEntity(Speciality speciality) {
+    public SpecialityEntity(@NonNull Speciality speciality) {
+        this.id = 0;
         this.specialityId = speciality.getSpecialityId();
         this.name = speciality.getName();
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static class Column {

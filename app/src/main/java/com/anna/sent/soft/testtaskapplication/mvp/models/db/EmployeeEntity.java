@@ -4,33 +4,39 @@ import com.anna.sent.soft.testtaskapplication.mvp.models.Employee;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.Value;
+
 @DatabaseTable(tableName = "employee")
+@Value
+@NoArgsConstructor(force = true)
+@AllArgsConstructor(suppressConstructorProperties = true)
 class EmployeeEntity {
+    @DatabaseField(columnName = Column.ID, generatedId = true)
+    int id;
+
     @DatabaseField(columnName = Column.FIRST_NAME, canBeNull = false)
+    @NonNull
     String firstName;
+
     @DatabaseField(columnName = Column.LAST_NAME, canBeNull = false)
+    @NonNull
     String lastName;
+
     @DatabaseField(columnName = Column.BIRTHDAY)
     String birthday;
+
     @DatabaseField(columnName = Column.IMAGE_URL)
     String imageUrl;
-    @SuppressWarnings("unused")
-    @DatabaseField(columnName = Column.ID, generatedId = true)
-    private int id;
 
-    @SuppressWarnings("unused")
-    EmployeeEntity() {
-    }
-
-    EmployeeEntity(Employee employee) {
+    EmployeeEntity(@NonNull Employee employee) {
+        this.id = 0;
         this.firstName = employee.getFirstName();
         this.lastName = employee.getLastName();
         this.birthday = employee.getBirthday();
         this.imageUrl = employee.getImageUrl();
-    }
-
-    public int getId() {
-        return id;
     }
 
     public static class Column {
