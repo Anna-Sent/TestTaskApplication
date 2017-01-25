@@ -84,6 +84,6 @@ dependencies {
     compile 'frankiesardo:icepick:3.2.0'
     provided 'frankiesardo:icepick-processor:3.2.0'
 
-    provided 'org.projectlombok:lombok:1.12.6'
-    apt 'org.projectlombok:lombok:1.12.6'
+    provided 'org.projectlombok:lombok:1.16.12'
+    apt 'org.projectlombok:lombok:1.16.12'
 }
