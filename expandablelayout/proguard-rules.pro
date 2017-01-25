@@ -16,7 +16,4 @@
 #   public *;
 #}
 
--dontoptimize
--dontobfuscate
-
--keep class com.anna.sent.soft.expandablelayout.** { *; }
+-keep class com.anna.sent.soft.expandablelayout.ExpandableLayout** { *; }

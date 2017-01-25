@@ -16,9 +16,6 @@
 #   public *;
 #}
 
--dontoptimize
--dontobfuscate
-
 ## ButterKnife ##
 ## https://guides.codepath.com/android/Configuring-ProGuard#butterknife ##
 
@@ -79,16 +76,6 @@
 
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
-
-## Icepick ##
-## https://github.com/frankiesardo/icepick#proguard ##
-
--dontwarn icepick.**
--keep class icepick.** { *; }
--keep class **$$Icepick { *; }
--keepclasseswithmembernames class * {
-    @icepick.* <fields>;
-}
 
 -keepnames class * { @icepick.State *;}
 
@@ -181,7 +168,3 @@
 }
 
 -keepnames class * { @icepick.State *; }
-
-## ExpandableLayout ##
-
--keep class com.anna.sent.soft.expandablelayout.** { *; }

@@ -23,13 +23,16 @@ android {
         debug {
             applicationIdSuffix '.dev'
             resValue "string", "app_name", "app${applicationIdSuffix}"
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles 'proguard.cfg', 'proguard-rules.pro'
         }
         release {
             applicationIdSuffix '.prod'
             resValue "string", "app_name", "app${applicationIdSuffix}"
             shrinkResources true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles 'proguard.cfg', 'proguard-rules.pro'
         }
     }
     productFlavors {
