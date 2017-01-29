@@ -15,7 +15,7 @@ public class TestTaskApp extends Application {
         return sAppComponent;
     }
 
-    @SuppressWarnings({"unused"})
+    @SuppressWarnings("unused")
     @VisibleForTesting
     public static void setAppComponent(@NonNull AppComponent appComponent) {
         sAppComponent = appComponent;
