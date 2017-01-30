@@ -15,16 +15,32 @@ import java.util.Locale;
 
 public class EmployeeStringUtils {
     private static final String TAG = EmployeeStringUtils.class.getSimpleName();
-    private static final SimpleDateFormat[] SDF_POSSIBLE = new SimpleDateFormat[]{
-            new SimpleDateFormat("dd-MM-yyyy", Locale.US), new SimpleDateFormat("yyyy-MM-dd", Locale.US)
+    private static final ThreadLocal<SimpleDateFormat[]> SDF_POSSIBLE = new ThreadLocal<SimpleDateFormat[]>() {
+        @Override
+        protected SimpleDateFormat[] initialValue() {
+            return new SimpleDateFormat[]{
+                    new SimpleDateFormat("dd-MM-yyyy", Locale.US),
+                    new SimpleDateFormat("yyyy-MM-dd", Locale.US)
+            };
+        }
     };
     private static final String EMPTY_BIRTHDAY = String.valueOf('\u2014');
-    private static final SimpleDateFormat SDF_RESULT = new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+    private static final ThreadLocal<SimpleDateFormat> SDF_RESULT = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("dd.MM.yyyy", Locale.US);
+        }
+    };
     private static final String INVALID_AGE = String.valueOf('\u2014');
-    private static final SimpleDateFormat SDF_COMPARE = new SimpleDateFormat("yyyy.MM.dd", Locale.US);
+    private static final ThreadLocal<SimpleDateFormat> SDF_COMPARE = new ThreadLocal<SimpleDateFormat>() {
+        @Override
+        protected SimpleDateFormat initialValue() {
+            return new SimpleDateFormat("yyyy.MM.dd", Locale.US);
+        }
+    };
 
     static {
-        for (SimpleDateFormat sdf : SDF_POSSIBLE) {
+        for (SimpleDateFormat sdf : SDF_POSSIBLE.get()) {
             sdf.setLenient(false);
         }
     }
@@ -50,7 +66,7 @@ public class EmployeeStringUtils {
         if (employee.getBirthday() == null)
             return;
 
-        for (SimpleDateFormat sdf : SDF_POSSIBLE) {
+        for (SimpleDateFormat sdf : SDF_POSSIBLE.get()) {
             try {
                 birthday = sdf.parse(employee.getBirthday());
             } catch (Exception e) {
@@ -78,7 +94,7 @@ public class EmployeeStringUtils {
     }
 
     public String getBirthday(Context context) {
-        return birthday == null ? EMPTY_BIRTHDAY : context.getString(R.string.date_format, SDF_RESULT.format(birthday));
+        return birthday == null ? EMPTY_BIRTHDAY : context.getString(R.string.date_format, SDF_RESULT.get().format(birthday));
     }
 
     public int getAge() {
@@ -113,7 +129,7 @@ public class EmployeeStringUtils {
     // можно переписать на сравнение с помощью joda time library
     public String nameToCompare() {
         if (nameToCompare == null) {
-            nameToCompare = getName() + (birthday == null ? "" : SDF_COMPARE.format(birthday));
+            nameToCompare = getName() + (birthday == null ? "" : SDF_COMPARE.get().format(birthday));
         }
         return nameToCompare;
     }
