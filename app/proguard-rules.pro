@@ -77,8 +77,6 @@
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 
--keepnames class * { @icepick.State *;}
-
 ## Retrolambda ##
 ## https://github.com/evant/gradle-retrolambda#proguard ##
 
@@ -102,7 +100,7 @@
 -dontwarn okio.**
 
 ## Retrofit2 ##
-## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-retrofit2.pro##
+## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-retrofit2.pro ##
 
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
