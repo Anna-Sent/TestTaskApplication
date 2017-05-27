@@ -16,21 +16,6 @@
 #   public *;
 #}
 
-## ButterKnife ##
-## https://guides.codepath.com/android/Configuring-ProGuard#butterknife ##
-
--keep class butterknife.** { *; }
--dontwarn butterknife.internal.**
--keep class **$$ViewBinder { *; }
-
--keepclasseswithmembernames class * {
-    @butterknife.* <fields>;
-}
-
--keepclasseswithmembernames class * {
-    @butterknife.* <methods>;
-}
-
 ## Glide ##
 ## https://github.com/bumptech/glide#proguard ##
 
@@ -40,7 +25,7 @@
   public *;
 }
 
-## RxJava ##
+## RxJava ## check
 ## https://gist.github.com/kosiara/487868792fbd3214f9c9 ##
 
 -keep class rx.schedulers.Schedulers {
@@ -71,18 +56,19 @@
 
 -dontwarn rx.internal.util.unsafe.**
 
-## GSON ##
+## Retrolambda ##
+## https://github.com/evant/gradle-retrolambda#proguard ##
+
+-dontwarn java.lang.invoke.*
+-dontwarn **$$Lambda$*
+
+## GSON ## check
 ## https://guides.codepath.com/android/Configuring-ProGuard#gson ##
 
 -keep class sun.misc.Unsafe { *; }
 -keep class com.google.gson.stream.** { *; }
 
-## Retrolambda ##
-## https://github.com/evant/gradle-retrolambda#proguard ##
-
--dontwarn java.lang.invoke.*
-
-## OkHttp3 ##
+## OkHttp3 ## check
 ## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-okhttp3.pro ##
 
 -keepattributes Signature
@@ -91,7 +77,7 @@
 -keep interface okhttp3.** { *; }
 -dontwarn okhttp3.**
 
-## Okio ##
+## Okio ## check
 ## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-okio.pro ##
 
 -keep class sun.misc.Unsafe { *; }
@@ -99,7 +85,7 @@
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
 
-## Retrofit2 ##
+## Retrofit2 ## check
 ## https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-retrofit2.pro ##
 
 -dontwarn retrofit2.**
@@ -111,15 +97,7 @@
     @retrofit2.http.* <methods>;
 }
 
-## Moxy ##
-
--keep class **$$PresentersBinder
--keep class **$$State
--keep class **$$ParamsHolder
--keep class **$$ViewStateClassNameProvider
--keepnames class * extends com.arellomobile.mvp.*
-
-## OrmLite ##
+## OrmLite ## check
 ## http://stackoverflow.com/questions/9853096/proguard-with-ormlite-on-android ##
 
 # OrmLite uses reflection
